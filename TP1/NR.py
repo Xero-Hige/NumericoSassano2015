@@ -44,12 +44,25 @@ def resolve_by_nr(f, ff,x0):
 
 
 def main(args):
+    #FIXME esto en realidad esta mal, porque la original y la derivada segun esto
+    #FIXME son la derivada y la derivada segunda de la funcion a minimizar.
     function = Original()
     derived_function = Derived()
 
     x0 = args[1] / 2.0
 
     root, iterations, error = resolve_by_nr(function, derived_function,x0)
+
+    min_x = root
+
+    #FIXME cambiar en base a lo anterior
+    if (function.eval(min_x) > function.eval(0)):
+        min_x = 0
+    if (function.eval(min_x) > function.eval(x0*2)):
+        min_x = x0*2
+
+    print "Min at:",min_x
+    print "Min value:",function.eval();
 
 # main(sys.argv)
 main(["", 11])
