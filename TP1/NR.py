@@ -20,7 +20,12 @@ class Derived(Function):
         return (2 * l) - 8
 
 
-def resolve_by_nr(f, ff,x0):
+class Second_Derived(Function):
+    def eval(self, l):
+        return 2
+
+
+def resolve_by_nr(f, ff, x0):
     i = 0
     error = 1
 
@@ -44,25 +49,31 @@ def resolve_by_nr(f, ff,x0):
 
 
 def main(args):
-    #FIXME esto en realidad esta mal, porque la original y la derivada segun esto
-    #FIXME son la derivada y la derivada segunda de la funcion a minimizar.
     function = Original()
     derived_function = Derived()
+    second_derived_function = Second_Derived()
 
     x0 = args[1] / 2.0
 
-    root, iterations, error = resolve_by_nr(function, derived_function,x0)
+    # Busco el 0 de la derivada, aka el punto critico
+    root, iterations, error = resolve_by_nr(derived_function, second_derived_function, x0)
 
+    # TODO: Ver por si tiene varias raices (no raices multiples)
+
+    # Punto del minimo hallado
     min_x = root
 
-    #FIXME cambiar en base a lo anterior
-    if (function.eval(min_x) > function.eval(0)):
-        min_x = 0
-    if (function.eval(min_x) > function.eval(x0*2)):
-        min_x = x0*2
+    if (second_derived_function.eval(min_x) > 0):
+        min_x = 0  #Tiene que estar en un extremo
 
-    print "Min at:",min_x
-    print "Min value:",function.eval();
+    if (function.eval(min_x) > function.eval(0)):
+        min_x = 0  #Este extremo es seguro mejor que el punto encontrado
+
+    if (function.eval(min_x) > function.eval(x0 * 2)):
+        min_x = x0 * 2  #Este es el minimo
+
+    print 'Min at:', min_x
+    print 'Min value:', function.eval(min_x)
 
 # main(sys.argv)
 main(["", 11])
