@@ -12,18 +12,20 @@ class Function(object):
 
 class Original(Function):
     def eval(self, l):
-        return (l ** 2) - (8 * l) + 16
+        return (l ** 3) - (8 * (l**2) ) + 16
 
 
 class Derived(Function):
     def eval(self, l):
-        return (2 * l) - 8
-
+        return (3 * (l**2) ) - (16*l)
 
 class Second_Derived(Function):
     def eval(self, l):
-        return 2
+        return (6*l) - 16
 
+class Relation(Function):
+    def eval(self, l):
+        return 100 - l
 
 def resolve_by_nr(f, ff, x0):
     i = 0
@@ -52,8 +54,9 @@ def main(args):
     function = Original()
     derived_function = Derived()
     second_derived_function = Second_Derived()
+    relation = Relation()
 
-    x0 = args[1] / 2.0
+    x0 = int(args[1]) / 2.0
 
     # Busco el 0 de la derivada, aka el punto critico
     root, iterations, error = resolve_by_nr(derived_function, second_derived_function, x0)
@@ -62,9 +65,6 @@ def main(args):
 
     # Punto del minimo hallado
     min_x = root
-
-    if (second_derived_function.eval(min_x) > 0):
-        min_x = 0  #Tiene que estar en un extremo
 
     if (function.eval(min_x) > function.eval(0)):
         min_x = 0  #Este extremo es seguro mejor que el punto encontrado
@@ -75,5 +75,9 @@ def main(args):
     print 'Min at:', min_x
     print 'Min value:', function.eval(min_x)
 
-# main(sys.argv)
-main(["", 11])
+    print 'L = ', min_x
+    print 'R = ', relation.eval(min_x)
+
+    #Results: https://www.wolframalpha.com/input/?i=%28l+**+3%29+-+%288+*+%28l**2%29+%29+%2B+16%3D-59.8518518519
+
+main(sys.argv)
