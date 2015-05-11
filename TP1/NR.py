@@ -23,24 +23,22 @@ class Second_Derived(Function):
 		return (3 / (PI**3)) * ((L - 4 * l) ** 2) + (l ** 2)
 
 class Relation(Function):
-	def eval(self, l):
-		return 100 - l
+	def eval(self, l, L):
+		return L - l
 
-def resolve_by_nr(f, ff, x0,mostrar = False):
+def resolve_by_nr(f, ff, x0,L = 100):
 	i = 0
 	error = 1
-	if(mostrar):
-		print "Xi+1		Xi		Error"
+	print "Xi+1		Xi		Error"
 
 	while (error > ERROR_LIMIT) and (i < MAX_ITERATIONS):
-		f0 = f.eval(x0)
-		f1 = ff.eval(x0)
+		f0 = f.eval(x0, L)
+		f1 = ff.eval(x0, L)
 
 		x1 = x0 - (f0 / f1)
 		i += 1
 		error = abs((x1 - x0) / x1)
-		if (mostrar):
-			print "%.4f		%.4f		%.4f" % (x1, x0, error)			
+		print "%.4f		%.4f		%.4f" % (x1, x0, error)			
 
 		x0 = x1
 
@@ -61,9 +59,10 @@ def main(args):
 	else:
 		x0 = 50
 	print "Trabajando con x0 = %.4f y error: %.4f" % (x0, ERROR_LIMIT)
+	L = int(raw_input("Ingresar la longitud del alambre: "))
 
 	# Busco el 0 de la derivada, aka el punto critico
-	root, iterations, error = resolve_by_nr(derived_function, second_derived_function, x0, True)
+	root, iterations, error = resolve_by_nr(derived_function, second_derived_function, x0, L)
 
 	# Punto del minimo hallado
 	min_x = root
@@ -77,6 +76,6 @@ def main(args):
 	print 'Minimo en x = %.4f' % (min_x)
 	print 'Valor del minimo: %.4f' % (function.eval(min_x))
 	print 'L = %.4f' % (min_x)
-	print 'R = %.4f' % (relation.eval(min_x))
+	print 'R = %.4f' % (relation.eval(min_x, L))
 
 main(sys.argv)
