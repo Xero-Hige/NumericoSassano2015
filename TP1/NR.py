@@ -12,15 +12,15 @@ class Function(object):
 
 class Original(Function):	
 	def eval(self, l, L = 100):
-		return (1 / (64 * (PI**3))) * ((L - 4 * l) ** 4) + (l ** 4) / 12
+		return (((1 / (64 * (PI**3))) * ((L - (4 * l)) ** 4)) + ((l ** 4) / 12))
 
 class Derived(Function):
 	def eval(self, l, L = 100):
-		return (-1 / (4 * (PI **3))) * ((L - 4 * l) ** 3) + (l ** 3) / 3
+		return ((((-1) / (4 * (PI **3))) * ((L - (4 * l)) ** 3)) + ((l ** 3) / 3))
 
 class Second_Derived(Function):
 	def eval(self, l, L = 100):
-		return (3 / (PI**3)) * ((L - 4 * l) ** 2) + (l ** 2)
+		return ((3 / (PI**3)) * ((L - (4 * l)) ** 2) + (l ** 2))
 
 class Relation(Function):
 	def eval(self, l, L):
@@ -63,7 +63,7 @@ def main(args):
 	#~ else:
 		#~ x0 = 50
 		#~ L = 100
-	L = float(raw_input("Ingresar la longitud del alambre (número mayor a 0): "))
+	L = float(raw_input("Ingresar la longitud del alambre (numero mayor a 0): "))
 	x0 = L / 2.0
 
 	print "Trabajando con x0 = %.4f, a partir de L = %.4f, hasta conseguir error menor a: %.4f" % (x0, L, ERROR_LIMIT)
