@@ -29,7 +29,7 @@ class Relation(Function):
 def resolve_by_nr(f, ff, x0,L = 100):
 	i = 0
 	error = 1
-	print "Xi+1		Xi		Error"
+	print "Xi+1    |    Xi    |    Error"
 
 	while (error > ERROR_LIMIT) and (i < MAX_ITERATIONS):
 		f0 = f.eval(x0, L)
@@ -38,7 +38,8 @@ def resolve_by_nr(f, ff, x0,L = 100):
 		x1 = x0 - (f0 / f1)
 		i += 1
 		error = abs((x1 - x0) / x1)
-		print "%.4f		%.4f		%.4f" % (x1, x0, error)			
+
+		print "%.4f    |    %.4f    |    %.4f" % (x1, x0, error)			
 
 		x0 = x1
 
@@ -49,33 +50,43 @@ def resolve_by_nr(f, ff, x0,L = 100):
 
 
 def main(args):
+	
 	function = Original()
-	derived_function = Derived()
-	second_derived_function = Second_Derived()
-	relation = Relation()
+ 	derived_function = Derived()
+ 	second_derived_function = Second_Derived()
+ 	relation = Relation()
+ 	
+	
+	#~ if (len(sys.argv) > 1):
+		#~ x0 = int(args[1]) / 2.0
+		#~ L = int(args[1])
+	#~ else:
+		#~ x0 = 50
+		#~ L = 100
+	L = float(raw_input("Ingresar la longitud del alambre: "))
+	x0 = L / 2.0
 
-	if (len(sys.argv) > 1):
-		x0 = int(args[1]) / 2.0
-	else:
-		x0 = 50
-	print "Trabajando con x0 = %.4f y error: %.4f" % (x0, ERROR_LIMIT)
-	L = int(raw_input("Ingresar la longitud del alambre: "))
+	print "Trabajando con x0 = %.4f, a partir de L = %.4f, hasta conseguir error menor a: %.4f" % (x0, L, ERROR_LIMIT)
+
+
 
 	# Busco el 0 de la derivada, aka el punto critico
 	root, iterations, error = resolve_by_nr(derived_function, second_derived_function, x0, L)
 
+
+
 	# Punto del minimo hallado
 	min_x = root
 
-	if (function.eval(min_x) > function.eval(0)):
-		min_x = 0  #Este extremo es seguro mejor que el punto encontrado
-
-	if (function.eval(min_x) > function.eval(x0 * 2)):
-		min_x = x0 * 2  #Este es el minimo
+	#~ if (function.eval(min_x) > function.eval(0)):
+		#~ min_x = 0  #Este extremo es seguro mejor que el punto encontrado
+#~ 
+	#~ if (function.eval(min_x) > function.eval(x0 * 2)):
+		#~ min_x = x0 * 2  #Este es el minimo
 
 	print 'Minimo en x = %.4f' % (min_x)
-	print 'Valor del minimo: %.4f' % (function.eval(min_x))
-	print 'L = %.4f' % (min_x)
-	print 'R = %.4f' % (relation.eval(min_x, L))
+	print 'Valor del minimo: %.4f' % (function.eval(min_x, L))
+	print 'l = %.4f' % (min_x)
+	print 'r = %.4f' % (relation.eval(min_x, L))
 
 main(sys.argv)
