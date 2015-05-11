@@ -63,7 +63,7 @@ def main(args):
 	#~ else:
 		#~ x0 = 50
 		#~ L = 100
-	L = float(raw_input("Ingresar la longitud del alambre: "))
+	L = float(raw_input("Ingresar la longitud del alambre (número mayor a 0): "))
 	x0 = L / 2.0
 
 	print "Trabajando con x0 = %.4f, a partir de L = %.4f, hasta conseguir error menor a: %.4f" % (x0, L, ERROR_LIMIT)
