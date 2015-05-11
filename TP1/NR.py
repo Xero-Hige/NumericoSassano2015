@@ -24,7 +24,7 @@ class Second_Derived(Function):
 
 class Relation(Function):
 	def eval(self, l, L):
-		return L - l
+		return (L - (4* l)) / (2 * PI)
 
 def resolve_by_nr(f, ff, x0,L = 100):
 	i = 0
@@ -55,38 +55,30 @@ def main(args):
  	derived_function = Derived()
  	second_derived_function = Second_Derived()
  	relation = Relation()
- 	
-	
-	#~ if (len(sys.argv) > 1):
-		#~ x0 = int(args[1]) / 2.0
-		#~ L = int(args[1])
-	#~ else:
-		#~ x0 = 50
-		#~ L = 100
+
 	L = float(raw_input("Ingresar la longitud del alambre (numero mayor a 0): "))
 	x0 = L / 2.0
 
 	print "Trabajando con x0 = %.4f, a partir de L = %.4f, hasta conseguir error menor a: %.4f" % (x0, L, ERROR_LIMIT)
 
-
-
 	# Busco el 0 de la derivada, aka el punto critico
 	root, iterations, error = resolve_by_nr(derived_function, second_derived_function, x0, L)
-
-
 
 	# Punto del minimo hallado
 	min_x = root
 
-	#~ if (function.eval(min_x) > function.eval(0)):
-		#~ min_x = 0  #Este extremo es seguro mejor que el punto encontrado
-#~ 
-	#~ if (function.eval(min_x) > function.eval(x0 * 2)):
-		#~ min_x = x0 * 2  #Este es el minimo
-
 	print 'Minimo en x = %.4f' % (min_x)
 	print 'Valor del minimo: %.4f' % (function.eval(min_x, L))
-	print 'l = %.4f' % (min_x)
-	print 'r = %.4f' % (relation.eval(min_x, L))
+	#print 'l = %.4f' % (min_x)
+	#print 'r = %.4f' % (relation.eval(min_x, L))
+	l = min_x
+	r = relation.eval(min_x, L)
+	L1 = 4 * l
+	L2 = 2 * PI * r	
+	
+	print "El alambre L de longitud %.4f cm debera ser cortado en: " % (L)
+	print "L1 = %.4f cm para formar una circunferencia de radio %.4f cm" % (L1, r)
+	print "L2 = %.4f cm para formar un cuadrado de lado %.4f cm" % (L2, l)
+	print "La suma, por supuesto debe dar la longitud del alambre: %.4f" % (L1 + L2)
 
 main(sys.argv)
