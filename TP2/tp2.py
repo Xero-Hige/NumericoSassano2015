@@ -23,48 +23,56 @@ class Vector(object):
 def rk4(h, x, y):
 	h_vector = Vector(h,h)
 	k1 = h_vector * f(x, y)
-	print k1
+	#print k1
 	k2 = h_vector * f(x + 0.5 * k1.v1, y + 0.5 * k1.v2)
-	print k2
+	#print k2
 	k3 = h_vector * f(x + 0.5 * k2.v1, y + 0.5 * k2.v2)
-	print k3
+	#print k3
 	k4 = h_vector * f(x + k3.v1, y + k3.v2)
-	print k4
+	#print k4
 	k_final = (k1 + k2 + k2 + k3 + k3 + k4)
 	print k_final
-	return k_final.v1 / 6, k_final.v2 / 6
+	sol = Vector(k_final.v1 / 6, k_final.v2 / 6)
+	print sol
+	return sol
  
-def solver(f, x0, y0, x1, h):
+def solver(t0, tf, h, inicial):
+	n = int((tf - t0) / float(h) )
 	vx = [0]*(n + 1)
 	vy = [0]*(n + 1)
-	n = (x1 - x0)/h
-	vx[0] = x = x0
-	vy[0] = y = y0
-	for i in range(1, n + 1):
-		vx[i] = x = x0 + i*h
-		vy[i] = y = y + (k1 + k2 + k2 + k3 + k3 + k4)/6
+	vx[0] = x = inicial.v1
+	vy[0] = y = inicial.v2
+	for i in xrange(n):
+		r = rk4(h,x,y)
+		#print r
+		vx[i] = x = r.v1
+		vy[i] = y = r.v2
 	return vx, vy
  
 def f(x, y):
 	f1 = a1 * x - a2 * x * y
 	f2 = -b1 * x + b2 * x * y
 	return Vector(f1,f2)
-
-
-def main():
-	print "Hola"
+	
+def prueba():
 	h = 0.1
-	x0 = 10
-	y0 = 5
+	x0 = 30
+	y0 = 4
 	r = rk4(h, x0, y0)
 	print r
-	print "[%.2f , %.2f]" % (x0 + r[0], y0 + r[1])
+	print "[%.2f , %.2f]" % (x0 + r.v1, y0 + r.v2)
 
-"""
-	vx, vy = rk4(f, 0, 1, 10, 0.1)
-	for x, y in list(zip(vx, vy))[::10]:
-		print(x, y, y - (4 + x*x)**2/16)
-"""
+def main():
+	x0 = 30
+	y0 = 4
+	t0 = 0
+	tf = 30
+	h = 0.1
+	condiciones_iniciales = Vector(x0, y0)
+
+	vx, vy = solver(t0, tf,h, condiciones_iniciales)
+	"""for x, y in list(zip(vx, vy))[::10]:
+		print(x, y, y - (4 + x*x)**2/16)"""
+
 
 main()
-
