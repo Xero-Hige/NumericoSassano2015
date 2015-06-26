@@ -73,9 +73,10 @@ def main():
 		writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 		ti = t0
 		for i in xrange(len(vx)):
-			st = "%.2f,%.10f,%.10f" % (ti, vx[i],vy[i])
-			print st
-			writer.writerow(st)
+			l1 = "%.2f" % ti
+			l2 = "%.10f" % vx[i]			
+			l3 = "%.10f" % vy[i]
+			writer.writerow([l1,l2,l3])
 			ti += h
 
 main()
