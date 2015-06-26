@@ -18,7 +18,7 @@ class Vector(object):
 		return Vector(self.v1 * other.v1, self.v2 * other.v2)
 	
 	def __str__(self):
-		return "[%.2f , %.2f]" % (self.v1, self.v2)
+		return "[%.5f , %.5f]" % (self.v1, self.v2)
 
 def rk4(h, x, y):
 	h_vector = Vector(h,h)
@@ -31,10 +31,10 @@ def rk4(h, x, y):
 	k4 = h_vector * f(x + k3.v1, y + k3.v2)
 	#print k4
 	k_final = (k1 + k2 + k2 + k3 + k3 + k4)
-	print k_final
+	#print k_final
 	sol = Vector(k_final.v1 / 6, k_final.v2 / 6)
-	print sol
-	return sol
+	print sol + Vector(x,y)
+	return sol + Vector(x,y)
  
 def solver(t0, tf, h, inicial):
 	n = int((tf - t0) / float(h) )
