@@ -1,4 +1,4 @@
-from math import sqrt
+import csv
 
 a1 = 0.4
 a2 = 0.018
@@ -68,9 +68,14 @@ def main():
 	condiciones_iniciales = Vector(x0, y0)
 
 	vx, vy = solver(t0, tf,h, condiciones_iniciales)
-	for i in xrange(len(vx)):
-		ti = t0 + i * h
-		print "%.2f\t%.10f\t%.10f" % (ti, vx[i],vy[i])
 
+	with open('out.csv', 'wb') as csvfile:
+		writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+		ti = t0
+		for i in xrange(len(vx)):
+			st = "%.2f,%.10f,%.10f" % (ti, vx[i],vy[i])
+			print st
+			writer.writerow(st)
+			ti += h
 
 main()
