@@ -1,7 +1,9 @@
-a1 = 0.4
-a2 = 0.018
-b1 = 0.8
-b2 = 0.023
+import matplotlib.pyplot as plt
+
+A1 = 0.4
+A2 = 0.018
+B1 = 0.8
+B2 = 0.023
 
 
 class Vector(object):
@@ -53,9 +55,36 @@ def solver(t0, tf, h, inicial):
 
 
 def f(x, y):
-    f1 = a1 * x - a2 * x * y
-    f2 = -b1 * y + b2 * x * y
+    f1 = A1 * x - A2 * x * y
+    f2 = -B1 * y + B2 * x * y
     return Vector(f1, f2)
+
+
+def solutions_graph(time, vx, vy):
+    plt.suptitle('Soluciones')
+
+    plt.plot(time, vx, 'g-', )
+    plt.annotate('x, presa', xy=(time[10], vx[10]), xytext=(time[10] + 3, vx[10] + 3),
+                 arrowprops=dict(facecolor='green', shrink=0.05), )
+    plt.plot(time, vy, 'r--')
+    plt.annotate('y, depredador', xy=(time[-10], vy[-10]), xytext=(time[-10] + 3, vy[-10] + 3),
+                 arrowprops=dict(facecolor='red', shrink=0.05), )
+    plt.grid(True)
+    plt.yticks(range(0, int(max(vx) + 2), 5))
+    plt.xticks(range(int(time[-10] + 3) + 2))
+    plt.show()
+
+
+def space_graph(vx, vy):
+    plt.suptitle("Estado - Espacio")
+
+    plt.plot(vx, vy, 'b-o', )
+    plt.grid(True)
+    plt.xlabel('x presa')
+    plt.ylabel('y predador')
+    plt.yticks(range(0, int(max(vy) + 2), 5))
+    plt.xticks(range(0, int(max(vx) + 2), 5))
+    plt.show()
 
 
 def main():
@@ -85,12 +114,18 @@ def main():
     #~ ti += h"""
 
     ti = t0
+    time = []
+
     print "Para x(0)=%.4f y y(0)=%.4f" % (x0, y0)
-    print "Con a1=%.4f, a2=%.4f, b1=%.4f y b2=%.4f" % (a1, a2, b1, b2)
+    print "Con a1=%.4f, a2=%.4f, b1=%.4f y b2=%.4f" % (A1, A2, B1, B2)
     print "ti\t\t|\t\tx(ti)\t\t|\t\ty(ti)"
     for i in xrange(len(vx)):
+        time.append(ti)
         print "%05.2f \t| %014.10f \t| %014.10f" % (ti, vx[i], vy[i])
         ti += h
+
+    solutions_graph(time, vx, vy)
+    space_graph(vx, vy)
 
 
 main()
