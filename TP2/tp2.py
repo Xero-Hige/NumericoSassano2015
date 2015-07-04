@@ -60,8 +60,14 @@ def f(x, y):
 
 
 def main():
-	x0 = 30
-	y0 = 4
+	try:
+		x0 = float(raw_input("Ingrese el valor de x(0) siendo x las presas: (30 por defecto) "))
+	except ValueError:
+		x0 = 30.0
+	try:
+		y0 = float(raw_input("Ingrese el valor de y(0) siendo y los depredadores: (4 por defecto) "))
+	except ValueError:
+		y0 = 4.0
 	t0 = 0
 	tf = 30
 	h = 0.1
@@ -69,14 +75,21 @@ def main():
 
 	vx, vy = solver(t0, tf,h, condiciones_iniciales)
 
-	with open('out.csv', 'wb') as csvfile:
-		writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-		ti = t0
-		for i in xrange(len(vx)):
-			l1 = "%.2f" % ti
-			l2 = "%.10f" % vx[i]			
-			l3 = "%.10f" % vy[i]
-			writer.writerow([l1,l2,l3])
-			ti += h
+	#~ with open('out.csv', 'wb') as csvfile:
+		#~ writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+		#~ ti = t0
+		#~ for i in xrange(len(vx)):
+			#~ l1 = "%.2f" % ti
+			#~ l2 = "%.10f" % vx[i]			
+			#~ l3 = "%.10f" % vy[i]
+			#~ writer.writerow([l1,l2,l3])
+			#~ ti += h
+	ti = t0
+	print "Para x(0)=%.4f y y(0)=%.4f" %(x0, y0)
+	print "Con a1=%.4f, a2=%.4f, b1=%.4f y b2=%.4f" %(a1, a2, b1, b2)
+	print "ti\t|\tx(ti)\t\t|\ty(ti)"
+	for i in xrange(len(vx)):
+		print "%.2f \t| %.10f \t| %.10f" %(ti, vx[i], vy[i])
+		ti += h
 
 main()
